@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:postalhub_userclient/pages/home/home.dart';
+import 'package:postalhub_userclient/src/navigator/navigator_services.dart';
+import 'package:postalhub_userclient/src/postalhub_ui.dart';
+
+import 'package:dynamic_color/dynamic_color.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,12 +13,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const Home(),
-    );
+    return DynamicColorBuilder(builder: (lightDynamic, darkDynamic) {
+      return MaterialApp(
+          theme: ThemeData(
+            colorScheme: lightDynamic ?? lightColorScheme,
+            //  fontFamily: 'GoogleSans',
+          ),
+          darkTheme: ThemeData(
+            colorScheme: darkDynamic ?? darkColorScheme,
+            // fontFamily: 'GoogleSans',
+          ),
+          themeMode: ThemeMode.system,
+          debugShowCheckedModeBanner: false,
+          home: const AppNavigatorServices());
+    });
   }
 }
